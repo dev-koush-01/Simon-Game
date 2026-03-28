@@ -70,7 +70,7 @@ This project primarily focuses on:
 
 ## 🌐 Live Demo
 
-*(Add GitHub Pages link here after deployment)*
+https://simon-game-dev-koush.vercel.app/
 
 ---
 
