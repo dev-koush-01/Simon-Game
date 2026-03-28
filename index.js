@@ -5,11 +5,13 @@ var buttonColours=[
 var userClickedPattern=[];
 
 var level = 0;
+var started = false;
 
 function startOver(){
     gamePattern=[]
     userClickedPattern=[]
     level=0;
+    started = false;
     $(document).one("keydown", nextSequence);
 }
 
@@ -23,6 +25,15 @@ function animatePress(currentColor){
     setTimeout(() => {
         $("#"+currentColor).removeClass("pressed")
     }, 100);
+}
+
+function handleUserInput(color){
+    userClickedPattern.push(color);
+    console.log(userClickedPattern)
+    console.log(gamePattern)
+    playSound(color)
+    animatePress(color)
+    checkAnswer(userClickedPattern.length-1)
 }
 
 function nextSequence(){
@@ -68,45 +79,38 @@ function checkAnswer(currentLevel){
 
 $(".btn").on("click",function(){
         var userChosenColour=$(this).attr("id")
-        userClickedPattern.push(userChosenColour);
-        console.log(userClickedPattern)
-        console.log(gamePattern)
-        playSound(userChosenColour)
-        animatePress(userChosenColour)
-        checkAnswer(userClickedPattern.length-1)
+        handleUserInput(userChosenColour);
     })
 
 $(document).one("keydown",function(){
+    started = true;
     nextSequence();
 
 })
 
-// function soundOnPress(key){
-//     var audio;
-//     switch (key) {
-//         case "q":
-//             audio=new Audio("./sounds/green.mp3")
-//             audio.play()
-//             break;
-//         case "w":
-//             audio=new Audio("./sounds/red.mp3")
-//             audio.play()
-//             break;
-//         case "a":
-//             audio=new Audio("./sounds/yellow.mp3")
-//             audio.play()
-//             break;
-//         case "s":
-//             audio=new Audio("./sounds/blue.mp3")
-//             audio.play()
-//             break;
-    
-//         default:
-//             console.log("Wrong key pressed: "+key)
-//             break;
-//     }
-// }
+function handleKeyPress(key){
+    var color;
+    switch (key.toLowerCase()) {
+        case "q":
+            color = "green";
+            break;
+        case "w":
+            color = "red";
+            break;
+        case "a":
+            color = "yellow";
+            break;
+        case "s":
+            color = "blue";
+            break;
+        default:
+            return; // Ignore other keys
+    }
+    handleUserInput(color);
+}
 
-// $(document).on("keydown",function(key){
-//     soundOnPress(key.key)
-// })
+$(document).on("keydown", function(event) {
+    if (started) {
+        handleKeyPress(event.key);
+    }
+})
