@@ -78,6 +78,26 @@ body {
   text-decoration: none;
 }
 
+#restart-btn {
+  font-size: 20px;
+  color: #FEF2BF;
+  background: none;
+  border: none;
+  text-decoration: none;
+  font-family: 'Press Start 2P', cursive;
+  cursor: pointer;
+  margin-left: 20px;
+}
+
+#restart-btn:hover {
+  text-decoration: underline;
+}
+
+#restart-btn:active {
+  color: #FEF2BF;
+  text-decoration: none;
+}
+
 .instructions-page{
   background-color: #011F3F;
   color: #FEF2BF;

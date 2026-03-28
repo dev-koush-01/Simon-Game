@@ -7,12 +7,23 @@ var userClickedPattern=[];
 var level = 0;
 var started = false;
 
-function startOver(){
+function resetGame(){
     gamePattern=[]
     userClickedPattern=[]
     level=0;
     started = false;
+    $("#level-title").text("Press A Key to Start")
+}
+
+function startOver(){
+    resetGame()
     $(document).one("keydown", nextSequence);
+}
+
+function restartGame(){
+    resetGame();
+    started = true;
+    nextSequence();
 }
 
 function playSound(name){
@@ -114,3 +125,5 @@ $(document).on("keydown", function(event) {
         handleKeyPress(event.key);
     }
 })
+
+$("#restart-btn").on("click", restartGame);
