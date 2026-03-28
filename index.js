@@ -6,18 +6,23 @@ var userClickedPattern=[];
 
 var level = 0;
 var started = false;
+var sequencePlaying = false;
 
 function resetGame(){
     gamePattern=[]
     userClickedPattern=[]
     level=0;
     started = false;
+    sequencePlaying = false;
     $("#level-title").text("Press A Key to Start")
 }
 
 function startOver(){
     resetGame()
-    $(document).one("keydown", nextSequence);
+    $(document).one("keydown", ()=>{
+        started = true;
+        nextSequence();
+    });
 }
 
 function restartGame(){
@@ -53,7 +58,8 @@ function nextSequence(){
     var randomChosenColour=buttonColours[randonNum]
     gamePattern.push(randomChosenColour)
     
-    $("#"+randomChosenColour).fadeOut(100).fadeIn(100).fadeOut(100).fadeIn(100);
+    sequencePlaying = true;
+    $("#"+randomChosenColour).fadeOut(100).fadeIn(100).fadeOut(100).fadeIn(100).promise().then(() => sequencePlaying = false);
     playSound(randomChosenColour) // Add sound for new sequence
 
     
@@ -121,7 +127,7 @@ function handleKeyPress(key){
 }
 
 $(document).on("keydown", function(event) {
-    if (started) {
+    if (started && !sequencePlaying) {
         handleKeyPress(event.key);
     }
 })
